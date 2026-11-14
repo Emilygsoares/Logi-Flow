@@ -53,10 +53,12 @@ export function computeDashboard(
   const index = new Map(series.map((s, i) => [s.date, i]));
   for (const o of orders) {
     const i = index.get(dayKey(new Date(o.created_at)));
-    if (i !== undefined) series[i].pedidos++;
+    const created = i !== undefined ? series[i] : undefined;
+    if (created) created.pedidos++;
     if (o.delivered_at) {
       const j = index.get(dayKey(new Date(o.delivered_at)));
-      if (j !== undefined) series[j].entregues++;
+      const done = j !== undefined ? series[j] : undefined;
+      if (done) done.entregues++;
     }
   }
 

@@ -79,7 +79,7 @@ function toDateOnly(value: string | Date) {
 }
 
 function parseDeadline(deadline: string) {
-  const [y, m, d] = deadline.split("-").map(Number);
+  const [y = 1970, m = 1, d = 1] = deadline.split("-").map(Number);
   return new Date(y, m - 1, d).getTime();
 }
 

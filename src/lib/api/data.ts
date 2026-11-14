@@ -12,9 +12,9 @@ export type Occurrence = Tables["occurrences"]["Row"] & {
 };
 export type OrderEvent = Tables["order_events"]["Row"];
 
-function unwrap<T>(res: { data: T | null; error: { message: string } | null }): T {
+function unwrap<T>(res: { data: T; error: { message: string } | null }): NonNullable<T> {
   if (res.error) throw new Error(res.error.message);
-  return res.data as T;
+  return res.data as NonNullable<T>;
 }
 
 export const profileQuery = () =>
@@ -22,16 +22,20 @@ export const profileQuery = () =>
     queryKey: ["profile"],
     queryFn: async () => {
       const { data: auth } = await supabase.auth.getUser();
-      const row = unwrap(
-        await supabase
-          .from("profiles")
-          .select("full_name, company_id, companies(name)")
-          .eq("id", auth.user?.id ?? "")
-          .maybeSingle(),
-      );
+      const res = await supabase
+        .from("profiles")
+        .select("full_name, company_id, companies(name)")
+        .eq("id", auth.user?.id ?? "")
+        .maybeSingle();
+      if (res.error) throw new Error(res.error.message);
+      const row = res.data as unknown as {
+        full_name: string;
+        company_id: string;
+        companies: { name: string } | null;
+      } | null;
       return {
         fullName: row?.full_name ?? "",
-        companyName: (row?.companies as { name: string } | null)?.name ?? "",
+        companyName: row?.companies?.name ?? "",
         companyId: row?.company_id ?? "",
         email: auth.user?.email ?? "",
       };
@@ -56,7 +60,7 @@ export const orderQuery = (id: string) =>
     queryFn: async () => {
       const order = unwrap(
         await supabase.from("orders").select("*, order_items(*)").eq("id", id).maybeSingle(),
-      ) as Order | null;
+      ) as unknown as Order | null;
       if (!order) return null;
       order.order_items.sort((a, b) => a.created_at.localeCompare(b.created_at));
       const events = unwrap(

@@ -57,7 +57,7 @@ import {
 } from "@/lib/domain/orders";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/_authenticated/pedidos/")({
+export const Route = createFileRoute("/_authenticated/pedidos/$id")({
   head: () => ({
     meta: [
       { title: "Detalhes do pedido — LogiFlow" },

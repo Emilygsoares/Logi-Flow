@@ -287,7 +287,7 @@ function Dashboard() {
                       <li key={p.id} className="flex items-center gap-3">
                         <div className="flex size-11 shrink-0 flex-col items-center justify-center rounded-lg bg-primary-soft text-primary">
                           <span className="text-sm font-semibold leading-none">{d}</span>
-                          <span className="text-[10px] uppercase">{mo}/{y.slice(2)}</span>
+                          <span className="text-[10px] uppercase">{mo}/{(y ?? "").slice(2)}</span>
                         </div>
                         <div className="min-w-0">
                           <p className="truncate text-sm font-medium">{p.carrier}</p>
