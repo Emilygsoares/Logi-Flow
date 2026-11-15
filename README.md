@@ -281,10 +281,6 @@ O objetivo dessas alterações foi concentrar os recursos disponíveis na constr
 **Acesse o LogiFlow:** https://preview--logiflowlogistics.lovable.app/?__lovable_receipt=mat_54amj9ynra9amadpyf5hzqerta
 
 
-## 🚀 Próximas evoluções
-
-Após a validação inicial, o LogiFlow poderá evoluir com:
-
 ## 👩‍💻 Desenvolvimento
 
 Projeto desenvolvido como parte de um desafio prático da **DIO**, com o objetivo de aplicar inteligência artificial na criação e validação de uma ideia de negócio, desde a identificação do problema até o desenvolvimento de um MVP.
